@@ -4,6 +4,15 @@ import search
 from dbconnect import ConversationRetrievalService, QueryResultConverter
 from search import Searcher
 
+class TestConversationRetrievalService(unittest.TestCase):
+    """
+    Test suite for the testable parts of `ConversationRetrievalService`.
+    """
+
+    def test_invalid_username(self):
+        with self.assertRaises(ValueError):
+            s = ConversationRetrievalService('BADUSERNAME')
+
 class TestQueryResultConverter(unittest.TestCase):
     """ 
     Test suite for conversations converter.
@@ -30,4 +39,5 @@ class TestSearch(unittest.TestCase):
         self.assertTrue('search' in search.DESCRIPTION)
 
 if __name__ == '__main__':
+    # Run tests
     unittest.main()
