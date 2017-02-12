@@ -5,8 +5,12 @@ Skype for Linux does not support group chats, so for now this only works on Wind
 
 Currently WIP.
 
-## How to Install
+## Getting Started
 
-1. Install sqlite3 for Windows from the official website.
+1. Make sure Python 3 is installed on your machine.
 
-2. TBD
+2. `cd` into the directory you downloaded and extracted SkypeSearch into.
+
+3. From a Windows command prompt, cdrun `python search.py` and follow the on-screen instructions.
+
+4. Enjoy searching for old Skype messages you thought everyone forgot about! :)

@@ -2,12 +2,13 @@
 # Programmer: Kenneth Sinder
 # Date Created: 2017-02-10
 # Filename: search.py
-# Description: SQLite3 DB Search Script
+# Description: Main search script
 #################################
 
 import argparse
 import os
 import sys
+from dbconnect import ConversationRetrievalService
 
 def main():
     pass
