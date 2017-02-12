@@ -11,6 +11,6 @@ Currently WIP.
 
 2. `cd` into the directory you downloaded and extracted SkypeSearch into.
 
-3. From a Windows command prompt, cdrun `python search.py` and follow the on-screen instructions.
+3. From a Windows command prompt, run `python search.py` and follow the on-screen instructions.
 
 4. Enjoy searching for old Skype messages you thought everyone forgot about! :)
