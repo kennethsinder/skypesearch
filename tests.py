@@ -1,6 +1,8 @@
 import unittest
 import dbconnect
+import search
 from dbconnect import ConversationRetrievalService, QueryResultConverter
+from search import Searcher
 
 class TestQueryResultConverter(unittest.TestCase):
     """ 
@@ -17,6 +19,15 @@ class TestQueryResultConverter(unittest.TestCase):
         self.assertEqual(result[0]['message'], 'Test message')
         self.assertEqual(result[1]['conversation_id'], 822)
         self.assertTrue('2016-04-21' in result[0]['local_datetime'])
+
+class TestSearch(unittest.TestCase):
+    """
+    Test suite for search.py.
+    """
+
+    def test_description(self):
+        self.assertTrue(len(search.DESCRIPTION) > 0)
+        self.assertTrue('search' in search.DESCRIPTION)
 
 if __name__ == '__main__':
     unittest.main()

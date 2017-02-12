@@ -33,8 +33,8 @@ class ConversationRetrievalService(object):
         """
         return "Connected to main DB at {0}".format(self._path) if self._connection is not None else "Disconnected"
 
-    def retrieve(self):
-        """ () -> list of dict
+    def retrieve(self, close_connection=False):
+        """ ([bool]) -> list of dict
         Returns a list of chat messages in the following format:
         [
             {'display_name': '___', 'username': '___', 'local_datetime': '2016-01-01 01:01:01',
@@ -42,10 +42,14 @@ class ConversationRetrievalService(object):
             ...
         ]
         Not guaranteed to be in any specific order.
+        Also closes the database connection afterwards if the given flag is True
         """
         cursor = self._connection.cursor()
         cursor.execute(QueryResultConverter.query)
-        return QueryResultConverter.convert(cursor.fetchall())
+        result = QueryResultConverter.convert(cursor.fetchall())
+        if close_connection:
+            self.cleanup()
+        return result
 
     def cleanup(self):
         """ () -> None
