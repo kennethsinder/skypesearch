@@ -9,6 +9,7 @@ import sqlite3
 import os
 import sys
 import datetime
+import html
 
 class ConversationRetrievalService(object):
 
@@ -75,7 +76,7 @@ class QueryResultConverter(object):
             message['display_name'] = row[0]
             message['username'] = row[1]
             message['local_datetime'] = QueryResultConverter._convert_timestamp_to_iso(row[2])
-            message['message'] = row[3]
+            message['message'] = '' if not row[3] else html.unescape(row[3])
             message['conversation_id'] = row[4]
             result.append(message)
         return result

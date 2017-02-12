@@ -41,7 +41,7 @@ def main():
                         help='Skype username')
     args = parser.parse_args()
     searcher = Searcher(ConversationRetrievalService, args.username)
-    print(searcher.filter('')[0])
+    print(searcher.filter(''))
 
 if __name__ == '__main__':
     main()
