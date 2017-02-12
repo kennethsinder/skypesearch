@@ -1,6 +1,6 @@
 # SkypeSearch
 
-![coverage badge](https://cdn.rawgit.com/dbrgn/coverage-badge/master/coverage.svg)
+![coverage badge](https://cdn.rawgit.com/kennethsinder/skypesearch/master/coverage.svg)
 
 Command-line script to search for a particular string in group conversations created by Skype (in local sqlite3 db).
 Skype for Linux does not support group chats, so for now this only works on Windows.
