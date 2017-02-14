@@ -38,7 +38,7 @@ class Searcher(object):
         without `string` parameter is to return all messages unfiltered.
         """
         return os.linesep.join([self._convert_message(m) \
-                for m in self.messages if self._is_match(string, m)])
+                for m in self.messages if self._is_ci_match(string, m)])
 
     def _is_match(self, string: str, msg: dict) -> bool:
         """ (str, dict) -> bool
@@ -46,6 +46,13 @@ class Searcher(object):
         within `msg`.
         """
         return string in msg['message']
+
+    def _is_ci_match(self, string: str, msg: dict) -> bool:
+        """ (str, dict) -> bool
+        Returns true iff `s` is a case-insensitive substring of the
+        message body within `msg`.
+        """
+        return string.upper() in msg['message'].upper()
 
     def _convert_message(self, message):
         """ (dict) -> str
