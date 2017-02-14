@@ -72,7 +72,7 @@ class QueryResultConverter(object):
     """
 
     query = "SELECT from_dispname, author, timestamp, body_xml, convo_id " + \
-            "FROM Messages ORDER BY timestamp DESC"
+            "FROM Messages ORDER BY timestamp"
 
     @staticmethod
     def convert(tuples):
@@ -94,7 +94,8 @@ class QueryResultConverter(object):
     def _convert_timestamp_to_iso(timestamp):
         """ (int) -> str
         Returns an ISO 8601 representation of the given
-        Unix timestamp.
+        Unix timestamp. Time will be local, not UTC, based on
+        how Skype prepares the Unix timestamps.
         """
         dt = datetime.datetime.fromtimestamp(int(timestamp))
         return dt.strftime('%Y-%m-%d %H:%M:%S')

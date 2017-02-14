@@ -15,8 +15,10 @@ Currently WIP.
 
 3. From a Windows command prompt: `chcp 65001`
 
-4. `set PYTHONIOENCODING=utf-8`
+4. `set PYTHONIOENCODING=utf-8`. These two commands are necessary to prepare the Windows terminal for Unicode output.
 
 3. `python search.py [-h] username query`, and follow the on-screen instructions.
 
 4. Enjoy searching for old Skype messages you thought everyone forgot about! :)
+
+5. Pipe to `more` or some other formatting command to view output in multiple pages, as there may be a lot of results returned back.
