@@ -28,20 +28,40 @@ class Searcher(object):
         self.conversation_service = conversation_service(username)
         self.messages = self.conversation_service.retrieve(True)
 
-    def filter(self, string):
-        """ (str) -> list of dict
+    def filter(self, string=''):
+        """ ([str]) -> list of dict
         Returns a new list of chat messages only containing
-        the given `string` in the message body.
+        the given `string` in the message body. Default behaviour
+        without `string` parameter is to return all messages unfiltered.
         """
-        return self.messages
+        return os.linesep.join([self._convert_message(m) \
+                for m in self.messages if string in m['message']])
+
+    def _convert_message(self, message):
+        """ (dict) -> str
+        Convert a `message` represented as a dictionary to an appropriate
+        string format for printing.
+        """
+        result = "From: {0} ({1})" + os.linesep + "Date: {2}" + \
+                os.linesep + "Message: \"{3}\"" + os.linesep
+        result += "Conversation ID: {4}" + os.linesep
+        result = result.format(message['display_name'], message['username'], \
+                message['local_datetime'], \
+                message['message'], \
+                message['conversation_id'])
+        return result
 
 def main():
+    """ () -> None
+    Main program entry point.
+    """
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('username', metavar='username', type=str,
                         help='Skype username')
+    parser.add_argument('query', metavar='query', type=str, help='Search query')
     args = parser.parse_args()
     searcher = Searcher(ConversationRetrievalService, args.username)
-    print(searcher.filter(''))
+    print(searcher.filter(args.query))
 
 if __name__ == '__main__':
     main()
