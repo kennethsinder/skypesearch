@@ -7,7 +7,6 @@
 
 import argparse
 import os
-import sys
 from dbconnect import ConversationRetrievalService
 
 DESCRIPTION = 'Skype conversation search tool'
@@ -39,7 +38,14 @@ class Searcher(object):
         without `string` parameter is to return all messages unfiltered.
         """
         return os.linesep.join([self._convert_message(m) \
-                for m in self.messages if string in m['message']])
+                for m in self.messages if self._is_match(string, m)])
+
+    def _is_match(self, string: str, msg: dict) -> bool:
+        """ (str, dict) -> bool
+        Returns True iff `s` is a substring of the message body
+        within `msg`.
+        """
+        return string in msg['message']
 
     def _convert_message(self, message):
         """ (dict) -> str
@@ -47,12 +53,12 @@ class Searcher(object):
         string format for printing.
         """
         result = "From: {0} ({1})" + os.linesep + "Date: {2}" + \
-                os.linesep + "Message: \"{3}\"" + os.linesep
-        result += "Conversation ID: {4}" + os.linesep
+                os.linesep + "Conversation ID: {3}" + os.linesep
+        result += "Message:" + os.linesep + "{4}" + os.linesep
         result = result.format(message['display_name'], message['username'], \
                 message['local_datetime'], \
-                message['message'], \
-                message['conversation_id'])
+                message['conversation_id'], \
+                message['message'])
         return result
 
 def main():

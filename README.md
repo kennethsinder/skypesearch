@@ -5,8 +5,6 @@
 Command-line script to search for a particular string in group conversations created by Skype (in local sqlite3 db).
 Skype for Linux does not support group chats, so for now this only works on Windows.
 
-Currently WIP.
-
 ## Getting Started
 
 1. Make sure Python 3 is installed on your machine.
