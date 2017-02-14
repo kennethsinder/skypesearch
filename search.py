@@ -13,6 +13,10 @@ from dbconnect import ConversationRetrievalService
 DESCRIPTION = 'Skype conversation search tool'
 
 class Searcher(object):
+    """
+    Skype message searcher.
+    Implements `filter([str]) -> str`.
+    """
 
     conversation_service = None
     messages = []
@@ -55,12 +59,17 @@ def main():
     """ () -> None
     Main program entry point.
     """
+    # Deal with the two command-line arguments
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('username', metavar='username', type=str,
                         help='Skype username')
     parser.add_argument('query', metavar='query', type=str, help='Search query')
     args = parser.parse_args()
+
+    # Create Searcher object
     searcher = Searcher(ConversationRetrievalService, args.username)
+
+    # Filter and print the result
     print(searcher.filter(args.query))
 
 if __name__ == '__main__':

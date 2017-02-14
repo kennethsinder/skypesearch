@@ -12,6 +12,10 @@ import datetime
 import html
 
 class ConversationRetrievalService(object):
+    """
+    Service to retrieve Skype conversations.
+    Implements `retrieve([bool]) -> list of dict`.
+    """
 
     _connection = None
     _path = None
@@ -28,7 +32,7 @@ class ConversationRetrievalService(object):
 
         self._connection = sqlite3.connect(self._path)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """ () -> str
         Returns a string representation of this `ConversationRetrievalService`.
         """
@@ -61,17 +65,22 @@ class ConversationRetrievalService(object):
             self._connection = None
 
 class QueryResultConverter(object):
-    
+    """
+    Converter from sqlite3 db output to a list
+    of dictionaries. Provides the required SQL
+    query.
+    """
+
     query = "SELECT from_dispname, author, timestamp, body_xml, convo_id " + \
             "FROM Messages ORDER BY timestamp DESC"
 
     @staticmethod
-    def convert(L):
+    def convert(tuples):
         """ (list of tuple) -> list of dict
         Database results converter used internally.
         """
         result = []
-        for row in L:
+        for row in tuples:
             message = {}
             message['display_name'] = row[0]
             message['username'] = row[1]
@@ -91,8 +100,4 @@ class QueryResultConverter(object):
         return dt.strftime('%Y-%m-%d %H:%M:%S')
 
 if __name__ == '__main__':
-    reader = ConversationRetrievalService("kenneth.sinder")
-    results = reader.retrieve()
-    reader.cleanup()
-    print(QueryResultConverter._convert_timestamp_to_iso(1486903045))
-    print("Should execute main script .\search.py instead.")
+    print(r"Should execute main script .\search.py instead.")
