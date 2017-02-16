@@ -88,7 +88,10 @@ def main():
     searcher = Searcher(ConversationRetrievalService, args.username, args.case_insensitive)
 
     # Filter and print the result
-    print(searcher.filter(args.query))
+    try:
+        print(searcher.filter(args.query))
+    except UnicodeEncodeError:
+        print(r"You must set up Unicode in Command Prompt. Please see README.md for details.")
 
 if __name__ == '__main__':
     main()
