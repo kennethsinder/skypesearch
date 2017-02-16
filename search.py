@@ -19,9 +19,10 @@ class Searcher(object):
 
     conversation_service = None
     messages = []
+    ci = False
 
-    def __init__(self, conversation_service, username):
-        """ (class, str) -> Searcher
+    def __init__(self, conversation_service, username, case_insensitive=False):
+        """ (class, str, [bool]) -> Searcher
         Prepares a new Searcher object by constructing the given
         `conversation_service` class (which must implement `retrieve([bool])`
         to retrieve a list of chat message dicts, and take in a username
@@ -30,6 +31,7 @@ class Searcher(object):
         """
         self.conversation_service = conversation_service(username)
         self.messages = self.conversation_service.retrieve(True)
+        self.ci = case_insensitive
 
     def filter(self, string=''):
         """ ([str]) -> list of dict
@@ -37,8 +39,9 @@ class Searcher(object):
         the given `string` in the message body. Default behaviour
         without `string` parameter is to return all messages unfiltered.
         """
+        match_function = self._is_ci_match if self.ci else self._is_match
         return os.linesep.join([self._convert_message(m) \
-                for m in self.messages if self._is_ci_match(string, m)])
+                for m in self.messages if match_function(string, m)])
 
     def _is_match(self, string: str, msg: dict) -> bool:
         """ (str, dict) -> bool
@@ -77,10 +80,12 @@ def main():
     parser.add_argument('username', metavar='username', type=str,
                         help='Skype username')
     parser.add_argument('query', metavar='query', type=str, help='Search query')
+    parser.add_argument('-c', '--ci', dest='case_insensitive', \
+                        help='Do a case-sensitive search', default=False, action='store_true')
     args = parser.parse_args()
 
     # Create Searcher object
-    searcher = Searcher(ConversationRetrievalService, args.username)
+    searcher = Searcher(ConversationRetrievalService, args.username, args.case_insensitive)
 
     # Filter and print the result
     print(searcher.filter(args.query))
