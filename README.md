@@ -20,3 +20,19 @@ Skype for Linux does not support group chats, so for now this only works on Wind
 4. Enjoy searching for old Skype messages you thought everyone forgot about! :)
 
 5. Pipe to `more` or some other formatting command to view output in multiple pages, as there may be a lot of results returned back.
+
+## Ideas
+
+* Skype creates XML when emoticons or special formatting are used in messages. Strip the tags and possibly even replace them with Unicode equivalents.
+
+* Provide regex and other filtering options in `Seacher` in `searcher.py`.
+
+* Add support for non-group conversations. Skype stores these in a different sqlite3 table.
+
+* Auto-detect username rather than requiring manual entry.
+
+* Improve documentation and transition to typehinted methods.
+
+* Create GUI as alternative to command-line.
+
+* Find a way to exclude call to unit tests and other untestable lines from coverage percentage.
