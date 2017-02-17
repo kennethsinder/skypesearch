@@ -1,24 +1,48 @@
+#################################
+# Programmer: Kenneth Sinder
+# Date Created: 2017-02-12
+# Filename: tests.py
+# Description: Unit tests
+#################################
+
 import unittest
+import os
+import sys
 import dbconnect
 import search
 from dbconnect import ConversationRetrievalService, QueryResultConverter
 from search import Searcher
 
+# -----------------------------------------------------------------
+
 class TestConversationRetrievalService(unittest.TestCase):
     """
-    Test suite for the testable parts of `ConversationRetrievalService`.
+    Tests invalid username with `ConversationRetrievalService`.
+    Since the behaviour of this class is system-dependent, no other
+    test cases can really be made.
     """
 
     def test_invalid_username(self):
+        """ () -> None
+        Invalid username should raise a `ValueError`
+        when a service is constructed.
+        """
         with self.assertRaises(ValueError):
-            s = ConversationRetrievalService('BADUSERNAME')
+            ConversationRetrievalService('BADUSERNAME')
+
+# -----------------------------------------------------------------
 
 class TestQueryResultConverter(unittest.TestCase):
     """ 
-    Test suite for conversations converter.
+    Tests for conversations converter `QueryResultConverter`.
     """
 
-    def test_convert(self):
+    def test_convert_two_records(self):
+        """ () -> None
+        Two records from the DB should result in two
+        converted records which have a converted
+        datetime string.
+        """
         db_output = [('ks', 'kenneth', 1461234567, 'Test message', 822)]
         db_output.append(('ks', 'kenneth', 1461234569, 'Test message 2', 822))
 
@@ -29,15 +53,87 @@ class TestQueryResultConverter(unittest.TestCase):
         self.assertEqual(result[1]['conversation_id'], 822)
         self.assertTrue('2016-04-21' in result[0]['local_datetime'])
 
+    def test_convert_zero_records(self):
+        """ () -> None
+        Zero records should be converted to an empty
+        list of chat messages without throwing any exceptions.
+        """
+        result = QueryResultConverter.convert([])
+
+        self.assertEqual(len(result), 0)
+
+# -----------------------------------------------------------------
+
+class TestSearcher(unittest.TestCase):
+    """
+    Tests for `Searcher` class in `search.py`.
+    """
+
+    class DummyConversationService(object):
+        MESSAGE = {'display_name': 'ks', 'username': 'ks', 'local_datetime': \
+                    '2016-01-01 01:01:01', 'message': 'MyMsg', 'conversation_id': 890}
+        def __init__(self, username):
+            pass
+        def retrieve(self, close_connection=False):
+            return [self.MESSAGE]
+
+    def test_filter_one_message_empty_query(self):
+        """ () -> None
+        One message with no search string should
+        return one message
+        """
+
+        searcher = Searcher(self.DummyConversationService, 'irrelevant')
+
+        result = searcher.filter()
+
+        self.assertTrue('MyMsg' in result)
+        self.assertTrue('2016-01-01 01:01:01' in result)
+        self.assertTrue(5 <= result.count(os.linesep) <= 7)
+
+    def test_filter_one_message_case_insensitive_search(self):
+        """ () -> None
+        One message with no search string should
+        return one message
+        """
+
+        searcher = Searcher(self.DummyConversationService, 'irrelevant', True)
+
+        result = searcher.filter('mymsg')
+
+        self.assertTrue('MyMsg' in result)
+        self.assertTrue('2016-01-01 01:01:01' in result)
+        self.assertTrue(5 <= result.count(os.linesep) <= 7)
+
+# -----------------------------------------------------------------
+
 class TestSearch(unittest.TestCase):
     """
-    Test suite for search.py.
+    Module-level sanity check for script `search.py`.
     """
 
     def test_description(self):
+        """ () -> None
+        Script must have a `DESCRIPTION` string, which must
+        describe the script's purpose.
+        """
         self.assertTrue(len(search.DESCRIPTION) > 0)
         self.assertTrue('search' in search.DESCRIPTION)
 
+    def test_main_no_args(self):
+        """ () -> None
+        Tests `main()` with no arguments.
+        """
+        with self.assertRaises(SystemExit):
+            sys.stdout = sys.stderr = open(os.devnull, 'w')
+            search.main()
+
+# -----------------------------------------------------------------
+
 if __name__ == '__main__':
-    # Run tests
+    # Sanity-check this module
+    import doctest
+    doctest.testmod()
+
+    # Run unit tests
     unittest.main()
