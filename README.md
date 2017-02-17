@@ -25,7 +25,7 @@ Skype for Linux does not support group chats, so for now this only works on Wind
 
 * Skype creates XML when emoticons or special formatting are used in messages. Strip the tags and possibly even replace them with Unicode equivalents.
 
-* Provide regex and other filtering options in `Seacher` in `searcher.py`.
+* Provide regex and other filtering options in `Seacher` in `search.py`.
 
 * Add support for non-group conversations. Skype stores these in a different sqlite3 table.
 
