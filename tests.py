@@ -105,6 +105,17 @@ class TestSearcher(unittest.TestCase):
         self.assertTrue('2016-01-01 01:01:01' in result)
         self.assertTrue(5 <= result.count(os.linesep) <= 7)
 
+    def test_filter_one_message_no_results(self):
+        """ () -> None
+        One message with an unrelated search string
+        should return no messages.
+        """
+        searcher = Searcher(self.DummyConversationService, 'irrelevant', True)
+
+        result = searcher.filter(TestSearcher.DummyConversationService.MESSAGE['message'][::-1])
+
+        self.assertEqual(result, str())
+
 # -----------------------------------------------------------------
 
 class TestSearch(unittest.TestCase):
