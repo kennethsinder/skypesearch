@@ -15,7 +15,7 @@ Skype for Linux does not support group chats, so for now this only works on Wind
 
 4. `set PYTHONIOENCODING=utf-8`. These two commands are necessary to prepare the Windows terminal for Unicode output.
 
-3. `python search.py [-h] username query [-c]`, and follow the on-screen instructions.
+3. `python search.py [-h] username query [-c]`, and follow the on-screen instructions. -h is for help and -c is for case-insensitive searching.
 
 4. Enjoy searching for old Skype messages you thought everyone forgot about! :)
 

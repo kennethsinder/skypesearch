@@ -57,7 +57,7 @@ class Searcher(object):
         """
         return string.upper() in msg['message'].upper()
 
-    def _convert_message(self, message):
+    def _convert_message(self, message) -> str:
         """ (dict) -> str
         Convert a `message` represented as a dictionary to an appropriate
         string format for printing.
@@ -80,7 +80,7 @@ def main():
     parser.add_argument('username', metavar='username', type=str,
                         help='Skype username')
     parser.add_argument('query', metavar='query', type=str, help='Search query')
-    parser.add_argument('-c', '--ci', dest='case_insensitive', \
+    parser.add_argument('-c', '--case-insensitive', dest='case_insensitive', \
                         help='Do a case-sensitive search', default=False, action='store_true')
     args = parser.parse_args()
 
