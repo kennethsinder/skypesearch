@@ -62,6 +62,17 @@ class TestQueryResultConverter(unittest.TestCase):
 
         self.assertEqual(len(result), 0)
 
+    def test_query_string(self):
+        """ () -> None
+        `QueryResultConverter` is SQLite3-specific, so it should
+        contain an appropriate command in its `query`.
+        """
+        result = QueryResultConverter.query
+        
+        self.assertGreater(len(result), 0)
+        self.assertTrue('from_dispname' in result.lower())
+        self.assertTrue('SELECT' in result.upper())
+
 # -----------------------------------------------------------------
 
 class TestSearcher(unittest.TestCase):

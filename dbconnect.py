@@ -18,6 +18,7 @@ class ConversationRetrievalService(object):
 
     _connection = None
     _path = None
+    _disconnected_string = "Disconnected"
 
     def __init__(self, username):
         """ (str) -> ConversationRetrievalService
@@ -35,7 +36,9 @@ class ConversationRetrievalService(object):
         """ () -> str
         Returns a string representation of this `ConversationRetrievalService`.
         """
-        return "Connected to main DB at {0}".format(self._path) if self._connection is not None else "Disconnected"
+        if self._connection is not None:
+            return "Connected to main DB at {0}".format(self._path)
+        return self._disconnected_string
 
     def retrieve(self, close_connection=False):
         """ ([bool]) -> list of dict
