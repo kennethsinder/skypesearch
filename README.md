@@ -3,7 +3,7 @@
 ![coverage badge](https://cdn.rawgit.com/kennethsinder/skypesearch/master/coverage.svg)
 
 Command-line script to search for a particular string in group conversations created by Skype (in local sqlite3 db).
-Skype for Linux does not support group chats, so for now this only works on Windows.
+Skype for Linux did not support group chats at the time of producing this tool; for now SkypeSearch only works on Windows.
 
 ## Getting Started
 
@@ -23,16 +23,18 @@ Skype for Linux does not support group chats, so for now this only works on Wind
 
 ## Ideas
 
-* Skype creates XML when emoticons or special formatting are used in messages. Strip the tags and possibly even replace them with Unicode equivalents.
+* Skype creates XML when emoticons or special formatting are used in messages. Strip the tags and possibly replace them with Unicode equivalents.
 
 * Provide regex and other filtering options in `Seacher` in `search.py`.
 
 * Add support for non-group conversations. Skype stores these in a different sqlite3 table.
 
-* Auto-detect username rather than requiring manual entry.
+* Auto-detect username based on folder structure rather than requiring manual entry.
 
-* Improve documentation and transition to typehinted methods.
+* Improve documentation and transition to typehinted methods (i.e. latest Python 3 syntax).
 
 * Create GUI as alternative to command-line.
 
 * Find a way to exclude call to unit tests and other untestable lines from coverage percentage.
+
+* Linux support
